@@ -1,7 +1,7 @@
 import java.io.PrintStream;
 import java.util.NoSuchElementException;
 
-public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
+public class StringDoubleEndedQueueImpl {
 
     private Node head;
     private Node tail;
@@ -42,7 +42,9 @@ public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
             }
         } catch (NoSuchElementException e) {
             System.out.println("nsee");
+
         }
+        return null;
     }
 
     public void addLast(String item) {
@@ -59,21 +61,29 @@ public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
 
     public String removeLast() throws NoSuchElementException {
         try {
+            Node n = tail;
             if (!isEmpty()) {
-                return tail.getData();
-                Node n = tail;
                 tail = tail.prev;
                 tail.next = null;
                 n.prev = null;
-            } else if ((tail == head) && (tail != null)) {
                 return tail.getData();
+            } else if ((tail == head) && (tail != null)) {
                 head = null;
                 tail = null;
+                return tail.getData();
             }
         } catch (NoSuchElementException e) {
             System.out.println("nsee");
         }
+        return null;
 
     }
 
+    public String getFirst() {
+        return head.getData();
+    }
+
+    public String getLast() {
+        return tail.getData();
+    }
 }
