@@ -1,7 +1,7 @@
 import java.io.PrintStream;
 import java.util.NoSuchElementException;
 
-public class StringDoubleEndedQueueImpl {
+public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
 
     private Node head;
     private Node tail;
@@ -22,7 +22,6 @@ public class StringDoubleEndedQueueImpl {
             tail = n;
         } else {
             n.setNext(head);
-            head.setPrev(n);
             head = n;
         }
     }
@@ -30,14 +29,14 @@ public class StringDoubleEndedQueueImpl {
     public String removeFirst() throws NoSuchElementException {
         try {
             Node n = head;
-            if (head != tail) {
+            if ((head == tail) && (head != null)) {
+                head = null;
+                tail = null;
+                return n.getData();
+            } else if (head != tail) {
                 head = head.next;
                 head.prev = null;
                 n.next = null;
-                return n.getData();
-            } else if ((head == tail) && (head != null)) {
-                head = null;
-                tail = null;
                 return n.getData();
             }
         } catch (NoSuchElementException e) {
@@ -53,7 +52,6 @@ public class StringDoubleEndedQueueImpl {
             head = n;
             tail = n;
         } else {
-            n.setPrev(tail);
             tail.setNext(n);
             tail = n;
         }
@@ -62,15 +60,15 @@ public class StringDoubleEndedQueueImpl {
     public String removeLast() throws NoSuchElementException {
         try {
             Node n = tail;
-            if (!isEmpty()) {
+            if ((tail == head) && (tail != null)) {
+                head = null;
+                tail = null;
+                return n.getData();
+            } else if (head != tail) {
                 tail = tail.prev;
                 tail.next = null;
                 n.prev = null;
-                return tail.getData();
-            } else if ((tail == head) && (tail != null)) {
-                head = null;
-                tail = null;
-                return tail.getData();
+                return n.getData();
             }
         } catch (NoSuchElementException e) {
             System.out.println("nsee");
@@ -86,4 +84,23 @@ public class StringDoubleEndedQueueImpl {
     public String getLast() {
         return tail.getData();
     }
+
+    public void printQueue(PrintStream stream) {
+        Node n = head;
+        while (n != null) {
+            stream.println(n.getData());
+            n = n.next;
+        }
+    }
+
+    public int size() {
+        Node n = head;
+        int count = 0;
+        while (n != null) {
+            count++;
+            n = n.next;
+        }
+        return count;
+    }
+
 }
