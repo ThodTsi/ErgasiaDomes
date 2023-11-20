@@ -29,16 +29,16 @@ public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
 
     public String removeFirst() throws NoSuchElementException {
         try {
+            Node n = head;
             if (head != tail) {
-                return head.getData();
-                Node n = head;
                 head = head.next;
                 head.prev = null;
                 n.next = null;
+                return n.getData();
             } else if ((head == tail) && (head != null)) {
-                return head.getData();
                 head = null;
                 tail = null;
+                return n.getData();
             }
         } catch (NoSuchElementException e) {
             System.out.println("nsee");
