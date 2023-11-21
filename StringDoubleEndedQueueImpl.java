@@ -3,8 +3,8 @@ import java.util.NoSuchElementException;
 
 public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
 
-    private Node head;
-    private Node tail;
+    protected Node head;
+    protected Node tail;
 
     StringDoubleEndedQueueImpl() {
         this.head = null;
