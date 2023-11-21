@@ -12,7 +12,8 @@ public class test {
         System.out.println(list.getLast());
         System.out.println(list.removeLast());
         System.out.println(list.removeFirst());
-
+        char str = '0';
+        System.out.println(str < '1');
     }
 
 }
