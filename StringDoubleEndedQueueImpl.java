@@ -22,6 +22,7 @@ public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
             tail = n;
         } else {
             n.setNext(head);
+            head.setPrev(n);
             head = n;
         }
     }
@@ -52,6 +53,7 @@ public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
             head = n;
             tail = n;
         } else {
+            n.setPrev(tail);
             tail.setNext(n);
             tail = n;
         }
