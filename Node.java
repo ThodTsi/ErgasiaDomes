@@ -22,7 +22,7 @@ public class Node {
     }
 
     public void setPrev(Node p) {
-        this.next = p;
+        this.prev = p;
     }
 
     public Node getPrev() {
