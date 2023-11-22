@@ -7,52 +7,64 @@ public class PrefixToInfix {
         Scanner in = new Scanner(System.in);
         String c = in.nextLine();
         char[] prefix = c.toCharArray();
-        boolean pref = true;
+        StringDoubleEndedQueueImpl queue = new StringDoubleEndedQueueImpl();
         for (int i = 0; i < prefix.length; i++) {
-            if (!((prefix[i] >= '0' & prefix[i] <= '9') || (prefix[i] == '+') || (prefix[i] == '-')
-                    || (prefix[i] == '*') || (prefix[i] == '/'))) {
+            queue.addLast(Character.toString(prefix[i]));
+        }
+        boolean pref = true;
+        // for (int i = 0; i < prefix.length; i++) {
+        // if (!((prefix[i] >= '0' & prefix[i] <= '9') || (prefix[i] == '+') ||
+        // (prefix[i] == '-')
+        // || (prefix[i] == '*') || (prefix[i] == '/'))) {
+        // pref = false;
+        // }
+        // }
+        Node node = queue.head;
+        while (n != null) {
+            String d = node.getData();
+            if (!((d.charAt(0) >= '0' & d.charAt(0) <= '9') || (d.equals("+")) || (d.equals("-")) || (d.equals("*"))
+                    || (d.equals("/")))) {
                 pref = false;
             }
+            node = node.next;
         }
         if (pref) {
-            StringDoubleEndedQueueImpl queue = new StringDoubleEndedQueueImpl();
             int count = 0;
             boolean flag = false;
-            for (int i = prefix.length - 1; i > 0; i--) {
-                /*
-                 * if (prefix[i] >= '0' & prefix[i] <= '9') {
-                 * queue.addLast(Integer.parseInt(String.valueOf(prefix[i])));
-                 * } else {
-                 * queue.addLast(Character.toString(prefix[i]));
-                 * }
-                 */
-                if ((prefix[i] == '+') || (prefix[i] == '-') || (prefix[i] == '*') || (prefix[i] == '/')) {
-                    int temp = 0;
-                    while (temp <= 1 && count < prefix.length) {
-                        if (flag == false) {
-                            if ((prefix[count] <= '0' && prefix[count] >= '9')) {
-                                flag = true;
-                                queue.addLast(Character.toString(prefix[count]));
-                                temp++;
-                                count++;
-                            } else {
-                                count++;
-                            }
-                        } else {
-                            if ((prefix[count] <= '0' && prefix[count] >= '9')) {
-                                queue.addLast(Character.toString(prefix[i]));
-                                queue.addLast(Character.toString(prefix[count]));
-                                temp++;
-                                count++;
-                            } else {
+            Node t = queue.tail;
+            Node h = queue.head;
+            while (t != null) {
+                if ((t.getData().equals("+")) || (t.getData().equals("-")) || (t.getData().equals("*"))
+                        || (t.getData().equals("/"))) {
+                    if (flag == false) {
+                        if (t.charAt(0) >= '0' & t.charAt(0) <= '9') {
+                            String temp = queue.removeFirst();
+                            queue.addLast(temp);
+                            h = h.next;
+                            while (flag == false & count < prefix.length) {
+                                if (prefix[count] >= '0' & prefix[count] <= '9') {
+                                    queue.addLast(Character.toString(prefix[i]));
+                                    queue.addLast(Character.toString(prefix[count]));
+                                    flag = true;
+                                }
                                 count++;
                             }
 
                         }
+                    } else {
+                        boolean stop = false;
+                        while (stop == false & count < prefix.length) {
+                            if (prefix[count] >= '0' & prefix[count] <= '9') {
+                                queue.addLast(Character.toString(prefix[i]));
+                                queue.addLast(Character.toString(prefix[count]));
+                                stop = true;
+                            }
+                            count++;
+                        }
                     }
                 }
-            }
 
+            }
             queue.printQueue(System.out);
         }
 
