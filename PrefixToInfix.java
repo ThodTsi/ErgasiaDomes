@@ -2,74 +2,99 @@ import java.util.Scanner;
 
 public class PrefixToInfix {
 
+    public static boolean isPrefix(char[] c) {
+        int telestes = 0;
+        int nums = 0;
+        boolean wrongChar = false;
+        for (int i = 0; i < c.length; i++) {
+            if (!((c[i] >= '0' & c[i] <= '9') || (c[i] == '+') ||
+                    (c[i] == '-')
+                    || (c[i] == '*') || (c[i] == '/'))) {
+                wrongChar = true;
+            } else if ((c[i] == '-') || (c[i] == '+') || (c[i] == '*') || (c[i] == '/')) {
+                telestes += 1;
+            } else if (c[i] >= 0 & c[i] <= '9') {
+                nums += 1;
+            }
+        }
+        if (telestes >= nums || !(c[0] == '+' || c[0] == '-' || c[0] == '*' || c[0] == '/') || wrongChar == true) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public static void main(String Args[]) {
 
         Scanner in = new Scanner(System.in);
         String c = in.nextLine();
         char[] prefix = c.toCharArray();
         StringDoubleEndedQueueImpl queue = new StringDoubleEndedQueueImpl();
-        for (int i = 0; i < prefix.length; i++) {
-            queue.addLast(Character.toString(prefix[i]));
-        }
-        boolean pref = true;
-        // for (int i = 0; i < prefix.length; i++) {
-        // if (!((prefix[i] >= '0' & prefix[i] <= '9') || (prefix[i] == '+') ||
-        // (prefix[i] == '-')
-        // || (prefix[i] == '*') || (prefix[i] == '/'))) {
-        // pref = false;
-        // }
-        // }
-        Node node = queue.head;
-        while (n != null) {
-            String d = node.getData();
-            if (!((d.charAt(0) >= '0' & d.charAt(0) <= '9') || (d.equals("+")) || (d.equals("-")) || (d.equals("*"))
-                    || (d.equals("/")))) {
-                pref = false;
-            }
-            node = node.next;
-        }
+        boolean pref = isPrefix(prefix);
+        int count = prefix.length - 1;
+        int first = 0;
+        boolean found = false;
         if (pref) {
-            int count = 0;
-            boolean flag = false;
-            Node t = queue.tail;
-            Node h = queue.head;
-            while (t != null) {
-                if ((t.getData().equals("+")) || (t.getData().equals("-")) || (t.getData().equals("*"))
-                        || (t.getData().equals("/"))) {
-                    if (flag == false) {
-                        if (t.charAt(0) >= '0' & t.charAt(0) <= '9') {
-                            String temp = queue.removeFirst();
-                            queue.addLast(temp);
-                            h = h.next;
-                            while (flag == false & count < prefix.length) {
-                                if (prefix[count] >= '0' & prefix[count] <= '9') {
-                                    queue.addLast(Character.toString(prefix[i]));
+            for (int i = prefix.length - 1; i >= 0; i--) {
+                if (first <= 1) {
+                    if ((prefix[i] == '+') || (prefix[i] == '-') || (prefix[i] == '*') || (prefix[i] == '/')) {
+                        while (first <= 1 & count >= 0) {
+                            if (prefix[count] >= '0' & prefix[count] <= '9') {
+                                if (first == 0) {
                                     queue.addLast(Character.toString(prefix[count]));
-                                    flag = true;
+                                    first++;
+                                } else if (first == 1) {
+                                    queue.addLast(Character.toString(prefix[count]));
+                                    Node n = new Node("(" + queue.tail.getData() + Character.toString(prefix[i])
+                                            + queue.tail.prev.getData() + ")");
+                                    queue.removeLast();
+                                    queue.removeLast();
+                                    queue.addLast(n.getData());
+                                    first++;
                                 }
-                                count++;
                             }
-
+                            count--;
                         }
                     } else {
-                        boolean stop = false;
-                        while (stop == false & count < prefix.length) {
-                            if (prefix[count] >= '0' & prefix[count] <= '9') {
-                                queue.addLast(Character.toString(prefix[i]));
-                                queue.addLast(Character.toString(prefix[count]));
-                                stop = true;
+                        queue.addLast(Character.toString(prefix[i]));
+                        first++;
+                    }
+                } else {
+                    if ((prefix[i] == '+') || (prefix[i] == '-') || (prefix[i] == '*') || (prefix[i] == '/')) {
+                        if (queue.size() == 1) {
+                            while (found == false & count >= 0) {
+                                if (prefix[count] >= '0' & prefix[count] <= '9') {
+                                    queue.addLast(Character.toString(prefix[count]));
+                                    Node n = new Node("(" + queue.tail.getData() + Character.toString(prefix[i])
+                                            + queue.tail.prev.getData() + ")");
+                                    queue.removeLast();
+                                    queue.removeLast();
+                                    queue.addLast(n.getData());
+                                    found = true;
+                                }
+                                count--;
                             }
-                            count++;
+                        } else {
+                            Node n = new Node("(" + queue.tail.getData() + Character.toString(prefix[i])
+                                    + queue.tail.prev.getData() + ")");
+                            queue.removeLast();
+                            queue.removeLast();
+                            queue.addLast(n.getData());
                         }
+                    } else {
+                        queue.addLast(Character.toString(prefix[i]));
                     }
                 }
 
+                // }
             }
+
             queue.printQueue(System.out);
+
+        } else {
+            System.out.println("This equation is not in prefix form");
         }
 
         in.close();
-
     }
-
 }
