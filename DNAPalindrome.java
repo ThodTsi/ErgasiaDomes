@@ -4,7 +4,7 @@ public class DNAPalindrome {
     
     public static void main(String Args[]){
 
-        StringDoubleEndedQueueImpl dna = new StringDoubleEndedQueueImpl();
+        StringDoubleEndedQueueImpl<String> dna = new StringDoubleEndedQueueImpl<String>();
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
         boolean flag = false;

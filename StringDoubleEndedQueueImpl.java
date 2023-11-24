@@ -1,10 +1,10 @@
 import java.io.PrintStream;
 import java.util.NoSuchElementException;
 
-public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
+public class StringDoubleEndedQueueImpl<T> implements StringDoubleEndedQueue<T>{
 
-    protected Node head;
-    protected Node tail;
+    protected Node<T> head;
+    protected Node<T> tail;
     protected int counter = 0;
 
     StringDoubleEndedQueueImpl() {
@@ -16,8 +16,8 @@ public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
         return head == null;
     }
 
-    public void addFirst(String item) {
-        Node n = new Node(item);
+    public void addFirst(T item) {
+        Node<T> n = new Node<>(item);
         if (isEmpty()) {
             head = n;
             tail = n;
@@ -29,9 +29,9 @@ public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
         counter++;
     }
 
-    public String removeFirst() throws NoSuchElementException {
+    public T removeFirst() throws NoSuchElementException {
         try {
-            Node n = head;
+            Node<T> n = head;
             if ((head == tail) && (head != null)) {
                 head = null;
                 tail = null;
@@ -51,8 +51,8 @@ public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
         return null;
     }
 
-    public void addLast(String item) {
-        Node n = new Node(item);
+    public void addLast(T item) {
+        Node<T> n = new Node<>(item);
         if (isEmpty()) {
             head = n;
             tail = n;
@@ -64,9 +64,9 @@ public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
         counter++ ;
     }
 
-    public String removeLast() throws NoSuchElementException {
+    public T removeLast() throws NoSuchElementException {
         try {
-            Node n = tail;
+            Node<T> n = tail;
             if ((tail == head) && (tail != null)) {
                 head = null;
                 tail = null;
@@ -86,18 +86,18 @@ public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
 
     }
 
-    public String getFirst() {
+    public T getFirst() {
         return head.getData();
     }
 
-    public String getLast() {
+    public T getLast() {
         return tail.getData();
     }
 
     public void printQueue(PrintStream stream) {
-        Node n = head;
+        Node<T> n = head;
         while (n != null) {
-            stream.println(n.getData());
+            stream.print(n.getData());
             n = n.next;
         }
     }

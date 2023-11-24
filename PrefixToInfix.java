@@ -29,7 +29,7 @@ public class PrefixToInfix {
         Scanner in = new Scanner(System.in);
         String c = in.nextLine();
         char[] prefix = c.toCharArray();
-        StringDoubleEndedQueueImpl queue = new StringDoubleEndedQueueImpl();
+        StringDoubleEndedQueueImpl<String> queue = new StringDoubleEndedQueueImpl<String>();
         boolean pref = isPrefix(prefix);
         int count = prefix.length - 1;
         int first = 0;
@@ -45,8 +45,7 @@ public class PrefixToInfix {
                                     first++;
                                 } else if (first == 1) {
                                     queue.addLast(Character.toString(prefix[count]));
-                                    Node n = new Node("(" + queue.tail.getData() + Character.toString(prefix[i])
-                                            + queue.tail.prev.getData() + ")");
+                                    Node<String> n = new Node<String>("(" + queue.tail.getData() + Character.toString(prefix[i]) + queue.tail.prev.getData() + ")");
                                     queue.removeLast();
                                     queue.removeLast();
                                     queue.addLast(n.getData());
@@ -65,7 +64,7 @@ public class PrefixToInfix {
                             while (found == false & count >= 0) {
                                 if (prefix[count] >= '0' & prefix[count] <= '9') {
                                     queue.addLast(Character.toString(prefix[count]));
-                                    Node n = new Node("(" + queue.tail.getData() + Character.toString(prefix[i])
+                                    Node<String> n = new Node<String>("(" + queue.tail.getData() + Character.toString(prefix[i])
                                             + queue.tail.prev.getData() + ")");
                                     queue.removeLast();
                                     queue.removeLast();
@@ -75,7 +74,7 @@ public class PrefixToInfix {
                                 count--;
                             }
                         } else {
-                            Node n = new Node("(" + queue.tail.getData() + Character.toString(prefix[i])
+                            Node<String> n = new Node<String>("(" + queue.tail.getData() + Character.toString(prefix[i])
                                     + queue.tail.prev.getData() + ")");
                             queue.removeLast();
                             queue.removeLast();
