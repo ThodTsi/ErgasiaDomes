@@ -5,6 +5,7 @@ public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
 
     protected Node head;
     protected Node tail;
+    protected int counter = 0;
 
     StringDoubleEndedQueueImpl() {
         this.head = null;
@@ -25,6 +26,7 @@ public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
             head.setPrev(n);
             head = n;
         }
+        counter++;
     }
 
     public String removeFirst() throws NoSuchElementException {
@@ -33,11 +35,13 @@ public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
             if ((head == tail) && (head != null)) {
                 head = null;
                 tail = null;
+                counter--;
                 return n.getData();
             } else if (head != tail) {
                 head = head.next;
                 head.prev = null;
                 n.next = null;
+                counter--;
                 return n.getData();
             }
         } catch (NoSuchElementException e) {
@@ -57,6 +61,7 @@ public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
             tail.setNext(n);
             tail = n;
         }
+        counter++ ;
     }
 
     public String removeLast() throws NoSuchElementException {
@@ -65,11 +70,13 @@ public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
             if ((tail == head) && (tail != null)) {
                 head = null;
                 tail = null;
+                counter--;
                 return n.getData();
             } else if (head != tail) {
                 tail = tail.prev;
                 tail.next = null;
                 n.prev = null;
+                counter--;
                 return n.getData();
             }
         } catch (NoSuchElementException e) {
@@ -96,13 +103,7 @@ public class StringDoubleEndedQueueImpl implements StringDoubleEndedQueue {
     }
 
     public int size() {
-        Node n = head;
-        int count = 0;
-        while (n != null) {
-            count++;
-            n = n.next;
-        }
-        return count;
+        return counter;
     }
 
 }
