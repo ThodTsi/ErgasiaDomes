@@ -5,7 +5,7 @@ public class StringDoubleEndedQueueImpl<T> implements StringDoubleEndedQueue<T>{
 
     protected Node<T> head;
     protected Node<T> tail;
-    protected int counter = 0;
+    protected int counter = 0; //gia na bgei to size() xwris loop --> O(1)
 
     StringDoubleEndedQueueImpl() {
         this.head = null;
@@ -30,25 +30,21 @@ public class StringDoubleEndedQueueImpl<T> implements StringDoubleEndedQueue<T>{
     }
 
     public T removeFirst() throws NoSuchElementException {
-        try {
-            Node<T> n = head;
-            if ((head == tail) && (head != null)) {
-                head = null;
-                tail = null;
-                counter--;
-                return n.getData();
-            } else if (head != tail) {
-                head = head.next;
-                head.prev = null;
-                n.next = null;
-                counter--;
-                return n.getData();
-            }
-        } catch (NoSuchElementException e) {
-            System.out.println("nsee");
-
+        Node<T> n = head;
+        if (isEmpty()){
+            System.out.println("The queue is empty!");
+            throw new NoSuchElementException();
+        }else if ((head == tail) && (head != null)) {
+            head = null;
+            tail = null;
+            counter--;
+        } else if (head != tail) {
+            head = head.next;
+            head.prev = null;
+            n.next = null;
+            counter--;
         }
-        return null;
+        return n.getData();
     }
 
     public void addLast(T item) {
@@ -65,25 +61,21 @@ public class StringDoubleEndedQueueImpl<T> implements StringDoubleEndedQueue<T>{
     }
 
     public T removeLast() throws NoSuchElementException {
-        try {
-            Node<T> n = tail;
-            if ((tail == head) && (tail != null)) {
-                head = null;
-                tail = null;
-                counter--;
-                return n.getData();
-            } else if (head != tail) {
-                tail = tail.prev;
-                tail.next = null;
-                n.prev = null;
-                counter--;
-                return n.getData();
-            }
-        } catch (NoSuchElementException e) {
-            System.out.println("nsee");
+        Node<T> n = tail;
+        if(isEmpty()){
+            System.out.println("The queue is empty!");
+            throw new NoSuchElementException();
+        }else if ((tail == head) && (tail != null)) {
+            head = null;
+            tail = null;
+            counter--;
+        } else if (head != tail) {
+            tail = tail.prev;
+            tail.next = null;
+            n.prev = null;
+            counter--;
         }
-        return null;
-
+        return n.getData();
     }
 
     public T getFirst() {
@@ -97,7 +89,7 @@ public class StringDoubleEndedQueueImpl<T> implements StringDoubleEndedQueue<T>{
     public void printQueue(PrintStream stream) {
         Node<T> n = head;
         while (n != null) {
-            stream.print(n.getData());
+            stream.println(n.getData());
             n = n.next;
         }
     }
