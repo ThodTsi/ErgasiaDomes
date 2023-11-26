@@ -28,16 +28,16 @@ public class PrefixToInfix {
 
         Scanner in = new Scanner(System.in);
         String c = in.nextLine();
-        char[] prefix = c.toCharArray();
+        char[] prefix = c.toCharArray(); // dhmiourgia pinaka apo to input gia to iteration gia thn metatroph
         StringDoubleEndedQueueImpl<String> queue = new StringDoubleEndedQueueImpl<String>();
-        boolean pref = isPrefix(prefix); //elegxos gia to an einai swsth h morfh wste na proxwrhsei
-        int count = prefix.length - 1; //arxikopoihsh counter, jekiname apo to telos toy array
-        int first = 0; //counter gia thn euresh twn prwtwn 2 arithmwn
-        boolean found = false; //flag gia otan brethei o arithmos
+        boolean pref = isPrefix(prefix); // elegxos gia to an einai swsth h morfh wste na proxwrhsei
+        int count = prefix.length - 1; // arxikopoihsh counter, jekiname apo to telos toy array
+        int first = 0; // counter gia thn euresh twn prwtwn 2 arithmwn
+        boolean found = false; // flag gia otan brethei o arithmos
 
         if (pref) {
             for (int i = prefix.length - 1; i >= 0; i--) {
-                if (first <= 1) { //mpainei mesa se auto to if mexri na vrei toys prwtoys dyo arithmous
+                if (first <= 1) { // mpainei mesa se auto to if mexri na vrei toys prwtoys dyo arithmous
                     if ((prefix[i] == '+') || (prefix[i] == '-') || (prefix[i] == '*') || (prefix[i] == '/')) {
                         while (first <= 1 & count >= 0) {
                             if (prefix[count] >= '0' & prefix[count] <= '9') {
@@ -46,10 +46,11 @@ public class PrefixToInfix {
                                     first++;
                                 } else if (first == 1) {
                                     queue.addLast(Character.toString(prefix[count]));
-                                    Node<String> n = new Node<String>("(" + queue.tail.getData() //dhmioyrgia node me thn twrinh
-                                                        + Character.toString(prefix[i])         // morfh ths parastashs
-                                                        + queue.tail.prev.getData() + ")");
-                                    queue.removeLast(); //katallhles eisagwges daigrafes gia thn ulopoihsh
+                                    Node<String> n = new Node<String>("(" + queue.tail.getData() // dhmioyrgia node me
+                                                                                                 // thn twrinh
+                                            + Character.toString(prefix[i]) // morfh ths parastashs
+                                            + queue.tail.prev.getData() + ")");
+                                    queue.removeLast(); // katallhles eisagwges daigrafes gia thn ulopoihsh
                                     queue.removeLast();
                                     queue.addLast(n.getData());
                                     first++;
@@ -61,14 +62,16 @@ public class PrefixToInfix {
                         queue.addLast(Character.toString(prefix[i]));
                         first++;
                     }
-                } else {
+                } else { // mpainei se auto to if afou exei vrei tous prwtous dyo arithmous
                     if ((prefix[i] == '+') || (prefix[i] == '-') || (prefix[i] == '*') || (prefix[i] == '/')) {
                         if (queue.size() == 1) {
-                            while (found == false & count >= 0) {
+                            while (found == false & count >= 0) { // loupa mexri na vrei ton epomeno arithmo gia thn
+                                                                  // prajh
                                 if (prefix[count] >= '0' & prefix[count] <= '9') {
                                     queue.addLast(Character.toString(prefix[count]));
-                                    Node<String> n = new Node<String>("(" + queue.tail.getData() + Character.toString(prefix[i])
-                                            + queue.tail.prev.getData() + ")");
+                                    Node<String> n = new Node<String>(
+                                            "(" + queue.tail.getData() + Character.toString(prefix[i])
+                                                    + queue.tail.prev.getData() + ")");
                                     queue.removeLast();
                                     queue.removeLast();
                                     queue.addLast(n.getData());
@@ -77,7 +80,8 @@ public class PrefixToInfix {
                                 count--;
                             }
                         } else {
-                            Node<String> n = new Node<String>("(" + queue.tail.getData() + Character.toString(prefix[i]) + queue.tail.prev.getData() + ")");
+                            Node<String> n = new Node<String>("(" + queue.tail.getData() + Character.toString(prefix[i])
+                                    + queue.tail.prev.getData() + ")");
                             queue.removeLast();
                             queue.removeLast();
                             queue.addLast(n.getData());
